@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <meta>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="button.css">
+  </head>
+  <body style="font-size: initial;">
+    <div id="app">
+      <h1>当前支持标签</h1>
+      <section id="tag-wrapper">
+        
+      </section>
+      <h1>标签配置</h1>
+      <section id="tag-config">
+        <p>标签内容: <input type="text" id="name-input" /> </p>
+        <p>字体颜色: <input type="color" id="color-input" /> </p>
+        <p>背景颜色: <input type="color" id="bg-color-input" /> </p>
+        <p>关键字: <input type="text" id="keywords-input" /> </p>
+      </section>
+
+      <button id="save">保存</button>
+    </div>
+    <!-- <script src="lib/petite-vue.iife.js"></script> -->
+    <script src="../resources/js/Tag.js" type="module"></script>
+    <script src="options.js" type="module"></script>
+  </body>
+</html>
