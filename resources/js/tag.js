@@ -1,62 +1,41 @@
-const tagOptions = [
-  { 
-    tagName: '嘉心糖',
-    keywords: ['嘉然'],
-    style: {
-      color: '#fff',
-      bgcolor: 'indianred'
-    }
-  },
-  { 
-    tagName: '原神玩家',
-    keywords: ['原神', '刻晴', '须弥'],
-    style: {
-      color: '#fff',
-      bgcolor: 'indianred'
-    }
-  },
-  { 
-    tagName: '抽奖B友',
-    keywords: ['抽奖'],
-    style: {
-      color: '#fff',
-      bgcolor: 'indianred'
-    }
-  },
-  { 
-    tagName: 'ikun',
-    keywords: ['ikun'],
-    style: {
-      color: '#fff',
-      bgcolor: 'indianred'
-    }
-  },
-]
 
 
-const Tag = function(options) {
+const Tag = function(options = {}) {
 
   this.options = options
+  this.ref = null
+  
 }
 
-Tag.prototype.render = function() {
+Tag.prototype.render = function(dom) {
 
   this.ref = document.createElement('div')
 
-  this.updateStyle()
+  this.update()
   this.bindEvents()
 
-  return this.ref
+  if(dom) {
+    dom.appendChild(this.ref)
+  }
+
+  return this
 }
 
-Tag.prototype.updateStyle = function(options) {
+Tag.prototype.update = function(options) {
 
   const tag = this.ref
 
-  const { text, bgcolor, color } = Object.assign(this.options, options)
+  if(options) {
+    
+    Object.assign(this.options.style, options.style)
+    Object.assign(this.options, options)
+  }
+
+  const { tagName, style } = this.options
+  const { bgcolor, color } = style || {}
 
   tag.className = 'auth-tag'
-  tag.innerText = text || ''
+  tag.innerText = tagName || ''
   tag.style.backgroundColor = bgcolor || 'rgb(244, 244, 244)'
   tag.style.display = 'inline-block'
   tag.style.color = color || 'rgb(117, 117, 117)'
@@ -73,9 +52,22 @@ Tag.prototype.bindEvents = function() {
   for (const key in this.options) {
     if(key.startsWith('on')) {
 
-      tag.addEventListener(key.slice(2).toLocaleLowerCase(), () => this.options[key] && this.options[key](this))
+      tag.addEventListener(key.slice(2).toLocaleLowerCase(), (e) => this.options[key] && this.options[key](e, this))
       
     }
+  }
+}
+
+/**
+ * 获取配置，用于保存
+ * @returns 
+ */
+Tag.prototype.getOptions = function() {
+
+  return { 
+    tagName: this.options.tagName,
+    keywords: this.options.keywords,
+    style: this.options.style
   }
 }
 

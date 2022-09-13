@@ -1,0 +1,57 @@
+
+.auth-tag {
+  
+  cursor: pointer;
+}
+
+#app {
+  width: 80vw;
+  margin: 0 auto;
+  max-width: 768px;
+  min-width: 440px;
+  color: rgb(74, 74, 74);
+}
+
+header {
+  display: flex;
+  align-items: center;
+}
+header > img {
+  margin: 0 1rem;
+}
+
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#tag-config > p > span:first-child {
+  display: inline-block;
+  vertical-align: top;
+  min-width: 5em; 
+
+}
+
+/* 复制的投稿按钮 */
+footer button {
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 34px;
+  border-radius: 8px;
+  background: #fb7299;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: background-color .3s;
+  border: none;
+}
+
+footer button:hover {
+  background-color: #C9CCD0;
+}

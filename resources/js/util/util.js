@@ -42,7 +42,6 @@ export const getReplyList = function(oid) {
   
   const url = `https://api.bilibili.com/x/v2/reply/main?mode=3&next=0&oid=${oid}&plat=1&seek_rpid=&type=1`
 
-  // orig 表示转发源动态数据
   return fetch(url, {
       
   })
