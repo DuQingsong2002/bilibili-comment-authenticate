@@ -1,37 +1,41 @@
+import { DYNAMIC_TYPE } from "./constant.js"
+import { onResponseHandlers as $AjaxHandlers, proxy$Ajax } from "./proxy/proxy-$ajax.js"
+import { onResponseHandlers as XHRHandlers, proxyXHR } from "./proxy/proxy-xhr.js"
+import { getSpaceList, isV1 } from "./util/util.js"
+
+const isv1 = isV1()
+
+console.debug('检测到', isv1 ? '新版' : '旧版', '布局')
+
+if(!isv1) {
+
+  // 暂时不知道jq啥时候加载的，onload有时候也拿不到，直接无限循环
+  const loop = function() {
+      if(!proxy$Ajax()) {
+          return window.requestAnimationFrame(loop)
+      }
+      $AjaxHandlers.push((ajax, data) => handleResponse(data))
+  }
+  
+  window.requestAnimationFrame(loop)
+
+}else {
+
+  proxyXHR()
+
+  XHRHandlers.push((xhr) => handleResponse(JSON.parse(xhr.response)))
+}
 
 
-// 原神mid 401742377
-// 嘉然mid 672328094
+let topAdded = false
 
-// https://api.bilibili.com/x/polymer/web-dynamic/v1/feed/space?offset=&host_mid=350934776&timezone_offset=-480
-
-// https://api.bilibili.com/x/v2/reply/main?csrf=0ae21fb098020f64dd08930a188771ea&mode=3&next=3&oid=686723054&plat=1&type=1
-
-
-const commentApi= '/v2/reply/main'
-
-const open = XMLHttpRequest.prototype.open
-const send = XMLHttpRequest.prototype.send
-
-let topCreated = false
-
-XMLHttpRequest.prototype.open = function(...args) { return open.apply(this, args) }
-
-XMLHttpRequest.prototype.send = function (...args) {
+const handleResponse = function(resp) {
     
-    this.addEventListener('load', () => {
-
-        if(this.responseURL.includes(commentApi)) {
-            const resp = JSON.parse(this.response)
-            const allReplies = topCreated ? resp.data.replies : [...resp.data.top_replies, ...resp.data.replies]
-            topCreated = true
-            const mids = allReplies.map(item => item.mid)
-            showTag(mids)
-        }
-    })
-    
-    return send.apply(this, args);
-};
+    const allReplies = topAdded ? resp.data.replies : [...resp.data.top_replies, ...resp.data.replies]
+    topAdded = true
+    const mids = allReplies.map(item => item.mid)
+    showTag(mids)
+}
 
 /**
  * 
@@ -63,43 +67,33 @@ const createTag = function(mid, tags) {
         tag.className = 'up-icon'
         tag.innerText = item
         tag.style.backgroundColor = item === '鉴定失败' ? '#DDD' : 'indianred'
+        tag.style.display = 'inline-block'
         tag.style.color = '#fff';
         tag.style.borderRadius = '.2em';
         tag.style.padding = '0 .5em'
         tag.style.margin = '0 8px'
         return tag
     })
-    replyItems.querySelectorAll(`div[data-user-id="${mid}"] + .content-warp .user-info`)
-        .forEach(parentDOM => {
-            if(parentDOM._created) return
-            tagDoms.forEach(tag => parentDOM.appendChild(tag))
-            parentDOM._created = true
-        })
+
+    if(isv1) {
+        replyItems.querySelectorAll(`div[data-user-id="${mid}"] + .content-warp > .user-info`)
+            .forEach(parentDOM => {
+                if(parentDOM._created) return
+                tagDoms.forEach(tag => parentDOM.appendChild(tag))
+                parentDOM._created = true
+            })
+    }else {
+        replyItems.querySelectorAll(`.reply-wrap[mr-show] > .con > .user > a[data-usercard-mid="${mid}"]`)
+            .forEach(dom => {
+                if(dom._created) return
+                tagDoms.forEach(tag => {
+                    dom.parentNode.appendChild(tag)
+                })
+                dom._created = true
+            })
+    }
 }
 
-
-const getSpaceList = function(mid) {
-    const url = `https://api.bilibili.com/x/polymer/web-dynamic/v1/feed/space?host_mid=${mid}`
-
-    // orig 表示转发源动态数据
-    return fetch(url, {
-        
-    })
-}
-
-const DYNAMIC_TYPE = {
-    // 转发
-    "FORWARD": 'DYNAMIC_TYPE_FORWARD',
-    
-    // 带图
-    "DRAW": 'DYNAMIC_TYPE_DRAW',
-
-    // 文字
-    "WORD": 'DYNAMIC_TYPE_WORD',
-
-    // 视频
-    "AV": 'DYNAMIC_TYPE_AV'
-}
 
 // const tags = [
 //     { text: '抽奖B友', color: 'indianred' },
