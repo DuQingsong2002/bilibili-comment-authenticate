@@ -1,7 +1,7 @@
 import { DYNAMIC_TYPE } from "./constant.js"
 import { onResponseHandlers as $AjaxHandlers, proxy$Ajax } from "./proxy/proxy-$ajax.js"
 import { onResponseHandlers as XHRHandlers, proxyXHR } from "./proxy/proxy-xhr.js"
-import { getSpaceList, isV1 } from "./util/util.js"
+import { getOid, getReplyList, getSpaceList, isV1 } from "./util/util.js"
 
 const isv1 = isV1()
 
@@ -15,6 +15,12 @@ if(!isv1) {
           return window.requestAnimationFrame(loop)
       }
       $AjaxHandlers.push((ajax, data) => handleResponse(data))
+      // 代理成功主动请求一次评论，页面第一次请求代理不到暂时不知道为啥
+      getReplyList(getOid())
+        .then(async resp => {
+            const data = await resp.json()
+            handleResponse(data)
+        })
   }
   
   window.requestAnimationFrame(loop)
@@ -59,7 +65,7 @@ const showTag = function(mids) {
 }
 
 const createTag = function(mid, tags) {
-    const replyItems = document.getElementById('comment') //.getElementsByClassName('reply-item')
+    const commentWrapper = document.getElementById('comment') //.getElementsByClassName('reply-item')
     
     if(!tags || tags.length === 0) tags.push('鉴定失败')
     const tagDoms = tags.map(item => {
@@ -76,14 +82,14 @@ const createTag = function(mid, tags) {
     })
 
     if(isv1) {
-        replyItems.querySelectorAll(`div[data-user-id="${mid}"] + .content-warp > .user-info`)
+        commentWrapper.querySelectorAll(`.comment-container > .reply-warp > .reply-list > .reply-item > .root-reply-container > .root-reply-avatar[data-user-id="${mid}"] + .content-warp > .user-info`)
             .forEach(parentDOM => {
                 if(parentDOM._created) return
                 tagDoms.forEach(tag => parentDOM.appendChild(tag))
                 parentDOM._created = true
             })
     }else {
-        replyItems.querySelectorAll(`.reply-wrap[mr-show] > .con > .user > a[data-usercard-mid="${mid}"]`)
+        commentWrapper.querySelectorAll(`.reply-wrap[mr-show] > .con > .user > a[data-usercard-mid="${mid}"]`)
             .forEach(dom => {
                 if(dom._created) return
                 tagDoms.forEach(tag => {
