@@ -5,7 +5,6 @@ import Tag from "./Tag.js"
 import { getOid, getReplyList, getSpaceList, getTagList, isV1 } from "./util/util.js"
 
 const tagList = await getTagList(EXTENSIONS_ID)
-console.log('tagList', tagList);
 const defaultTag = tagList.find(({keywords}) => !keywords || !keywords.length)
 
 const isv1 = isV1()
@@ -130,7 +129,6 @@ const resolveTag = function(list) {
     for (const item of list) {
         
         const info = resolveText(item)
-        console.log('info', info);
         const texts = info.nickname.join('') + info.desc.join('') + info.major.join('')
 
         tagList.forEach((tag) => {
