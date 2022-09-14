@@ -18,6 +18,7 @@ const colorInput = document.getElementById('color-input')
 const bgColorInput = document.getElementById('bg-color-input')
 const keywordsInput = document.getElementById('keywords-input')
 
+const createBtn = document.getElementById('create')
 const saveBtn = document.getElementById('save')
 
 const storageTagList = []
@@ -29,6 +30,15 @@ saveBtn.onclick = function() {
     alert('保存成功!')
   })
 }
+
+createBtn.onclick = function() {
+  const tagName = prompt('请输入标签名字')
+  if(tagName) {
+    const tag = new Tag({tagName, onclick: openTagDetail, oncontextmenu: removeBtn})
+    storageTagList.push(tag.render(tagWrapper))
+  }
+}
+
 
 /**
  * 
@@ -46,7 +56,7 @@ const openTagDetail = function(e, tag) {
   nameInput.onchange = (e) => tag.update({ tagName: e.target.value })
   colorInput.onchange = (e) => tag.update({ style: { color: e.target.value } })
   bgColorInput.onchange = (e) => tag.update({ style: { bgcolor: e.target.value } })
-  keywordsInput.onchange = (e) => tag.updateStyle({ keywords: e.target.value })
+  keywordsInput.onchange = (e) => tag.update({ keywords: e.target.value.split(',') })
 
 }
 
@@ -70,27 +80,9 @@ const removeBtn = function(e, tag) {
 chrome.storage.sync.get({tagList: []}, function({tagList}) {
 
   console.debug('loaded tagList', tagList)
-  
-  createDefaultButton()
 
   tagList.forEach(item => {
     storageTagList.push(new Tag({...item, onclick: openTagDetail, oncontextmenu: removeBtn}).render(tagWrapper))
   })
 
 })
-
-const createDefaultButton = function() {
-
-  const tagOptions = { 
-    tagName: '添加新标签', 
-    onclick: () => {
-      const tagName = prompt('请输入标签名字')
-      if(tagName) {
-        const tag = new Tag({tagName, onclick: openTagDetail, oncontextmenu: removeBtn})
-        storageTagList.push(tag.render(tagWrapper))
-      }
-  }}
-
-  new Tag(tagOptions).render(tagWrapper)
-
-}

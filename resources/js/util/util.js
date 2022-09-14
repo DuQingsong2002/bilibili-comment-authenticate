@@ -55,12 +55,12 @@ export const getReplyList = function(oid) {
  * 获取标签配置
  * @returns {Promise<Array>}
  */
-export const getTagList = function() {
+export const getTagList = function(extensionsId) {
 
   return new Promise((resolve, reject) => {
 
     try {
-      chrome.runtime.sendMessage('fmbpnfdiicidojdogdpdbdnnenphjoib', { getTagList: true }, ({tagList}) => resolve(tagList))
+      chrome.runtime.sendMessage(extensionsId, { getTagList: true }, ({tagList}) => resolve(tagList))
 
     }catch (err) {
       reject(err)

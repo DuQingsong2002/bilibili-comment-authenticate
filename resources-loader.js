@@ -1,11 +1,11 @@
 const resourcePrefix = '/resources'
 
 const reources = [
-  '/js/proxy/$ajax-proxy.js', 
+  '/js/proxy/proxy-$ajax.js', 
   '/js/proxy/proxy-xhr.js', 
   '/js/util/util.js', 
   '/js/constant.js',
-  '/js/comment.js'
+  '/js/main.js'
 ]
 
 const loadJSResource = function(path) {

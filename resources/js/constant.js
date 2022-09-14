@@ -18,4 +18,4 @@ export const DYNAMIC_TYPE = {
   "AV": 'DYNAMIC_TYPE_AV'
 }
 
-export const EXTENSIONS_ID = 'fmbpnfdiicidojdogdpdbdnnenphjoib'
+export const EXTENSIONS_ID = 'ppaedppgmpgkflmboampnlocpdhnfjde'

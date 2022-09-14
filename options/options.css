@@ -26,6 +26,7 @@ header > img {
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 10px;
+  min-height: 80px;
 }
 
 .tag-config__item {
@@ -52,7 +53,7 @@ header > img {
 }
 
 /* 复制的投稿按钮 */
-footer button {
+ .button {
   align-items: center;
   justify-content: center;
   width: 90px;
@@ -68,6 +69,13 @@ footer button {
   border: none;
 }
 
-footer button:hover {
+.button--blue {
+  background-color: #00aeecff;
+}
+.button:hover {
   background-color: #C9CCD0;
+}
+
+#tag-wrapper .auth-tag {
+  margin-top: 8px !important;
 }

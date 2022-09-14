@@ -1,10 +1,11 @@
-import { commentApi, DYNAMIC_TYPE } from "./constant.js"
+import { commentApi, DYNAMIC_TYPE, EXTENSIONS_ID } from "./constant.js"
 import { onResponseHandlers as $AjaxHandlers, proxy$Ajax } from "./proxy/proxy-$ajax.js"
 import { onResponseHandlers as XHRHandlers, proxyXHR } from "./proxy/proxy-xhr.js"
 import Tag from "./Tag.js"
 import { getOid, getReplyList, getSpaceList, getTagList, isV1 } from "./util/util.js"
 
-const tagList = await getTagList()
+const tagList = await getTagList(EXTENSIONS_ID)
+console.log('tagList', tagList);
 const defaultTag = tagList.find(({keywords}) => !keywords || !keywords.length)
 
 const isv1 = isV1()
@@ -129,7 +130,8 @@ const resolveTag = function(list) {
     for (const item of list) {
         
         const info = resolveText(item)
-        const texts = info.nickname + JSON.stringify(info.desc) + JSON.stringify(info.major)
+        console.log('info', info);
+        const texts = info.nickname.join('') + info.desc.join('') + info.major.join('')
 
         tagList.forEach((tag) => {
 
@@ -150,19 +152,35 @@ const resolveTag = function(list) {
     return result
 }
 
-const resolveText = function(item) {
+/**
+ * 装扮和个签就先不管了，一眼可见
+ * 存数组表示自己和转发源的
+ * @returns 
+ */
+const resolveText = function(item, result = { mid: [], nickname: [], desc: [], major: [] }) {
+
+    const setResult = () => {
+        result.mid.push(item.modules.module_author.mid)
+
+        result.nickname.push(item.modules.module_author.name)
+
+        // 文字
+        result.desc.push(item.modules.module_dynamic.desc ? item.modules.module_dynamic.desc.text : '')
+
+        // 视频文字信息
+        result.major.push(JSON.stringify(item.modules.module_dynamic.major))
+
+        return result
+    }
 
     if(item.type === DYNAMIC_TYPE.FORWARD) {
 
-        return resolveText(item.orig)
+        setResult()
+
+        return resolveText(item.orig, result)
         
     }else {
 
-        return {
-            mid: item.modules.module_author.mid,
-            nickname: item.modules.module_author.name,
-            desc: item.modules.module_dynamic.desc,
-            major: item.modules.module_dynamic.major,
-        }
+        return setResult()
     }
 }

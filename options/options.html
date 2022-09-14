@@ -8,13 +8,15 @@
     <div id="app">
       <header><img src="./images/bili.png"> <h1>评论区成分鉴定 v1.0.0</h1></header>
       <h2>当前支持标签</h2>
-      <p><i>点击标签配置属性</i>&nbsp;&nbsp;<i>右键标签删除</i></p>
+      <p><button id="create" class="button">添加新标签</button>&nbsp;&nbsp;<i>点击标签配置属性</i>&nbsp;&nbsp;<i>右键标签删除</i></p>
       <section id="tag-wrapper" class="card">
         
       </section>
+      <hr />
       <h2>标签配置</h2>
+
       <section id="tag-config"  class="card">
-        <p><i>判断原理就是检测空间动态有没有标签所属的关键词 <b>多个关键词用英文 , 隔开</b> 不然检测结果不对</i></p>
+        <p><i>判断原理就是检测空间动态有没有标签所属的关键词 <b>多个关键词用英文 , 隔开</b> 不然检测结果不对 (英文忽略大小写)</i></p>
         <p><i><b>没有关键词</b> 会用于缺省设置, <b>多个缺省用第一个</b></i></p>
         <p class="tag-config__item"><span>标签内容:</span> <input type="text" id="name-input" /> </p>
         <p class="tag-config__item"><span>字体颜色:</span> <input type="color" id="color-input" /> </p>
@@ -24,9 +26,12 @@
         <h3 class="tag-config__tip"> 选择标签进行配置 </h3>
       </section>
 
-      <footer>
-        <button id="save">保存</button> <i>保存后即可生效</i>
-      </footer>
+
+      <section>
+        <button id="save" class="button button--blue">保存</button> <i>修改后保存即可生效</i>
+      </section>
+
+      <hr />
 
       <p>bilibili: <a href="https://www.bilibili.com/">https://www.bilibili.com/</a></p>
       <p>github: <a href="https://github.com/DuQingsong2002/bilibili-comment-authenticate">https://github.com/DuQingsong2002/bilibili-comment-authenticate</a></p>

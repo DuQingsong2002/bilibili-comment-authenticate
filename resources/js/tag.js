@@ -2,7 +2,10 @@
 
 const Tag = function(options = {}) {
 
+  options.style = options.style || {}
+
   this.options = options
+  
   this.ref = null
   
 }

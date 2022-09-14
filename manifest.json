@@ -1,12 +1,13 @@
 {
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvf9cMXEgvp1ZH9K2kXWo3d8sLviEthZ3/1PxQUGW0BPnfV6iVVnu8oRbznaB56jwj6JMEAG7KN3MMV1I5I6pnbePruOJ10Rx4tY5lYoHgZcC2vJOVwsm5jxjRWzGXbP2A6ioo9SgXx4zb3cwS6vcbBEN9DGUuVf74Mdb7QwotKfrs8McXB/5t02gGBKTvP9Fomve4pTA6gkGR3SzV6hEDLBgtemyqIKbSlpOpgD088ySvyDIFoz5C08GiBa1Tnu+gw+7J1Hudzf3VQodY7X9l8H3Az5ykjiPDQmGya0tgnjiX9g43ELHxODCd14oWGUsbvdStMFgb8uFnHjUtZU2IQIDAQAB",
   "name": "B站评论区成分鉴定",
-  "description": "B站评论区成分鉴定",
+  "description": "B站评论区成分鉴定（仅学习交流用!）",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["storage", "activeTab", "scripting", "notifications"],
+  "permissions": ["storage"],
   "action": {
     "default_popup": "options/options.html",
     "default_icon": {
@@ -23,7 +24,6 @@
     "128": "/images/get_started128.png"
   },
   "options_page": "options/options.html",
-  "devtools_page": "devtools.html",
   "content_scripts": [
     { 
       "matches": ["*://*.bilibili.com/*"],
@@ -35,9 +35,6 @@
       "resources": ["resources/*"],
       "matches": ["https://*.bilibili.com/*"]
     }
-  ],
-  "host_permissions": [
-    "https://*.bilibili.com/"
   ],
   "externally_connectable": {
     "matches": ["*://*.bilibili.com/*"]
