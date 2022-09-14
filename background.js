@@ -6,9 +6,9 @@
 // })
 
 /**
+ * 预设的关键标签
  * 颜色值需要十六进制写全
  */
-
 const defaultTagList = [
   { 
     tagName: '未能识别',
@@ -52,13 +52,40 @@ const defaultTagList = [
   },
 ]
 
-chrome.storage.sync.get({initial: true}, function({initial}) {
-  
-  if(initial) {
+chrome.runtime.onInstalled.addListener(({reason}) => {
+  if (reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    chrome.storage.sync.set({ tagList: defaultTagList })
+    chrome.tabs.create({
+      url: 'options/options.html'
+    })
+  }
+})
 
-    console.debug('第一次启动...')
-    chrome.storage.sync.set({ initial: false, tagList: defaultTagList })
+// chrome.tabs.onUpdated.addListener(({tabId}) => {
+//   // chrome.tabs.sendMessage(tabId, {greeting: "hello"}, function(response) {
+//   //   console.log(response.farewell);
+//   // })
+//   console.log('tab', tabId)
+//   // chrome.storage.sync.get({ tagList: [] }, ({tagList}) => {
 
+//   //   const getTagList = function() {return tagList } 
+
+//   //   chrome.scripting.executeScript(
+//   //     {
+//   //       target: {tabId: tabId},
+//   //       func: getTagList,
+//   //       args: [tagList]
+//   //     }, console.log)
+      
+//   // })
+    
+// })
+
+chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
+
+  console.log('request', request);
+  if(request.getTagList) {
+    chrome.storage.sync.get({ tagList: [] }, sendResponse)
   }
 
 })

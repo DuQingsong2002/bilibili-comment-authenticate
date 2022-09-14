@@ -28,11 +28,27 @@ header > img {
   margin-bottom: 10px;
 }
 
-#tag-config > p > span:first-child {
+.tag-config__item {
+  display: none;
+}
+.tag-config__item > span:first-child {
   display: inline-block;
   vertical-align: top;
   min-width: 5em; 
 
+}
+
+.tag-config__tip {
+  text-align: center;
+  line-height: 150px;
+}
+
+#tag-config.--checked > .tag-config__item {
+  display: block;
+}
+
+#tag-config.--checked > .tag-config__tip {
+  display: none;
 }
 
 /* 复制的投稿按钮 */

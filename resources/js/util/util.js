@@ -4,7 +4,9 @@
  */
 export const isV1 = function() {
 
-  return document.getElementById('app').classList.contains('app-v1')
+  try {
+    return document.getElementById('app').classList.contains('app-v1')
+  }catch {}
 }
 
 /**
@@ -16,6 +18,7 @@ export const getOid = function() {
   
   let selecor = isV1() ? '' : '.common > .comment > .bb-comment > .comment-list > div[mr-show]'
   const tmp = comment.querySelector(selecor)
+  if(!tmp) return
   return JSON.parse(tmp.getAttribute('mr-show')).msg.oid
 }
 
@@ -46,4 +49,22 @@ export const getReplyList = function(oid) {
       
   })
   
+}
+
+/**
+ * 获取标签配置
+ * @returns {Promise<Array>}
+ */
+export const getTagList = function() {
+
+  return new Promise((resolve, reject) => {
+
+    try {
+      chrome.runtime.sendMessage('fmbpnfdiicidojdogdpdbdnnenphjoib', { getTagList: true }, ({tagList}) => resolve(tagList))
+
+    }catch (err) {
+      reject(err)
+    }
+  
+  })
 }

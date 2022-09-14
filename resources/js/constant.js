@@ -17,3 +17,5 @@ export const DYNAMIC_TYPE = {
   // 视频
   "AV": 'DYNAMIC_TYPE_AV'
 }
+
+export const EXTENSIONS_ID = 'fmbpnfdiicidojdogdpdbdnnenphjoib'

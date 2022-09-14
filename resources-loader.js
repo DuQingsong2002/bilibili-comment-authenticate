@@ -8,7 +8,6 @@ const reources = [
   '/js/comment.js'
 ]
 
-
 const loadJSResource = function(path) {
   
   const script = document.createElement('script');

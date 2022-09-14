@@ -8,18 +8,20 @@
     <div id="app">
       <header><img src="./images/bili.png"> <h1>评论区成分鉴定 v1.0.0</h1></header>
       <h2>当前支持标签</h2>
-      <p><i>点击标签配置属性</i></p>
+      <p><i>点击标签配置属性</i>&nbsp;&nbsp;<i>右键标签删除</i></p>
       <section id="tag-wrapper" class="card">
         
       </section>
       <h2>标签配置</h2>
       <section id="tag-config"  class="card">
-        <p><i>判断原理就是检测空间动态有没有标签所属的关键字 <b>多个关键字用英文 , 隔开</b> 不然会识别错误</i></p>
-        <p><i><b>没有关键字</b> 会用于缺省设置, <b>多个缺省用第一个</b></i></p>
-        <p><span>标签内容:</span> <input type="text" id="name-input" /> </p>
-        <p><span>字体颜色:</span> <input type="color" id="color-input" /> </p>
-        <p><span>背景颜色:</span> <input type="color" id="bg-color-input" /> </p>
-        <p><span>关键字:</span> <textarea id="keywords-input" ></textarea> <i>多个关键字,隔开</i> </p>
+        <p><i>判断原理就是检测空间动态有没有标签所属的关键词 <b>多个关键词用英文 , 隔开</b> 不然检测结果不对</i></p>
+        <p><i><b>没有关键词</b> 会用于缺省设置, <b>多个缺省用第一个</b></i></p>
+        <p class="tag-config__item"><span>标签内容:</span> <input type="text" id="name-input" /> </p>
+        <p class="tag-config__item"><span>字体颜色:</span> <input type="color" id="color-input" /> </p>
+        <p class="tag-config__item"><span>背景颜色:</span> <input type="color" id="bg-color-input" /> </p>
+        <p class="tag-config__item"><span>关键词:</span> <textarea id="keywords-input" ></textarea> <i>多个关键词,隔开</i> </p>
+
+        <h3 class="tag-config__tip"> 选择标签进行配置 </h3>
       </section>
 
       <footer>

@@ -25,6 +25,7 @@ const storageTagList = []
 saveBtn.onclick = function() {
 
   chrome.storage.sync.set({tagList: storageTagList.map(item => item.getOptions())}, () => {
+    tagConfig.classList.remove('--checked')
     alert('保存成功!')
   })
 }
@@ -34,6 +35,8 @@ saveBtn.onclick = function() {
  * @param {Tag} tag 
  */
 const openTagDetail = function(e, tag) {
+
+  tagConfig.classList.add('--checked')
 
   nameInput.value = tag.options.tagName
   colorInput.value = tag.options.style.color
